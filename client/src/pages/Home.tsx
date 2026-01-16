@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Mail, Phone, MapPin, Menu, X } from "lucide-react";
 import Lightbox from "@/components/Lightbox";
+import ContactForm from "@/components/ContactForm";
+import WhatsAppButton from "@/components/WhatsAppButton";
 import { ASSET_MANIFEST } from "@/lib/assetManifest";
 
 type CategoryKey = keyof typeof ASSET_MANIFEST;
@@ -332,48 +334,74 @@ export default function Home() {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-16 md:py-24 bg-white">
+      <section id="contact" className="py-16 md:py-24 bg-gradient-to-b from-white to-amber-50">
         <div className="container mx-auto px-4">
-          <div className="max-w-2xl mx-auto text-center">
-            <h2 className="text-4xl md:text-5xl font-bold text-amber-950 mb-4" style={playfairStyle}>
-              Let's Create Something Amazing Together!
-            </h2>
-            <p className="text-amber-800 mb-12 text-lg">🚀💼</p>
-
-            <div className="space-y-6 mb-12">
-              <div className="flex items-center justify-center gap-4 text-amber-900">
-                <Mail className="w-6 h-6 text-amber-600" />
-                <a
-                  href="mailto:chauhansagency@gmail.com"
-                  className="hover:text-amber-600 transition-colors"
-                >
-                  chauhansagency@gmail.com
-                </a>
-              </div>
-              <div className="flex items-center justify-center gap-4 text-amber-900">
-                <Phone className="w-6 h-6 text-amber-600" />
-                <a
-                  href="tel:+918810491624"
-                  className="hover:text-amber-600 transition-colors"
-                >
-                  +91 8810491624
-                </a>
-              </div>
-              <div className="flex items-center justify-center gap-4 text-amber-900">
-                <MapPin className="w-6 h-6 text-amber-600" />
-                <span>Ashok Vihar Phase – 3, Delhi – 52</span>
-              </div>
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl md:text-5xl font-bold text-amber-950 mb-4" style={playfairStyle}>
+                Let's Create Something Amazing Together!
+              </h2>
+              <p className="text-amber-800 text-lg">🚀💼</p>
             </div>
 
-            <button
-              onClick={() => {
-                window.location.href = "mailto:chauhansagency@gmail.com";
-              }}
-              className="inline-block px-10 py-4 bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 text-white font-bold rounded-lg transition-all duration-300 hover:shadow-xl hover:shadow-amber-200 text-lg"
-              style={playfairStyle}
-            >
-              Get In Touch
-            </button>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-12">
+              {/* Contact Information */}
+              <div className="space-y-8">
+                <div>
+                  <h3 className="text-2xl font-bold text-amber-950 mb-6" style={playfairStyle}>
+                    Get In Touch
+                  </h3>
+                  <div className="space-y-6">
+                    <div className="flex items-start gap-4">
+                      <Mail className="w-6 h-6 text-amber-600 flex-shrink-0 mt-1" />
+                      <div>
+                        <p className="font-medium text-amber-950">Email</p>
+                        <a
+                          href="mailto:chauhansagency@gmail.com"
+                          className="text-amber-700 hover:text-amber-900 transition-colors break-all"
+                        >
+                          chauhansagency@gmail.com
+                        </a>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-4">
+                      <Phone className="w-6 h-6 text-amber-600 flex-shrink-0 mt-1" />
+                      <div>
+                        <p className="font-medium text-amber-950">Phone</p>
+                        <a
+                          href="tel:+918810491624"
+                          className="text-amber-700 hover:text-amber-900 transition-colors"
+                        >
+                          +91 8810491624
+                        </a>
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-4">
+                      <MapPin className="w-6 h-6 text-amber-600 flex-shrink-0 mt-1" />
+                      <div>
+                        <p className="font-medium text-amber-950">Address</p>
+                        <p className="text-amber-700">Ashok Vihar Phase – 3, Delhi – 52</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div>
+                  <p className="text-sm text-amber-800 mb-4">
+                    Prefer instant messaging? Connect with me on WhatsApp for quick responses.
+                  </p>
+                  <WhatsAppButton variant="inline" />
+                </div>
+              </div>
+
+              {/* Contact Form */}
+              <div className="luxury-card p-8">
+                <h3 className="text-2xl font-bold text-amber-950 mb-6" style={playfairStyle}>
+                  Send a Message
+                </h3>
+                <ContactForm />
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -397,6 +425,9 @@ export default function Home() {
         items={currentItems}
         initialIndex={lightboxIndex}
       />
+
+      {/* WhatsApp Fixed Button */}
+      <WhatsAppButton variant="fixed" />
     </div>
   );
 }
