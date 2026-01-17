@@ -268,12 +268,19 @@ export default function Home() {
 
           {/* Portfolio Grid */}
           {currentItems.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
               {currentItems.map((item, idx) => (
                 <div
                   key={idx}
                   onClick={() => handleItemClick(idx)}
-                  className="luxury-card cursor-pointer overflow-hidden group"
+                  className="luxury-card cursor-pointer overflow-hidden group h-full w-full"
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      handleItemClick(idx);
+                    }
+                  }}
                 >
                   {item.type === "image" && (
                     <div className="relative overflow-hidden bg-gray-200 aspect-square">
@@ -304,9 +311,7 @@ export default function Home() {
                     <div className="relative overflow-hidden bg-gradient-to-br from-amber-100 to-amber-50 aspect-square flex items-center justify-center group">
                       <div className="text-center">
                         <div className="text-6xl mb-2">📄</div>
-                        <p className="text-sm font-medium text-amber-900 px-4 line-clamp-2">
-                          {item.name}
-                        </p>
+                        <p className="text-sm font-medium text-amber-900 px-4">Creative Work</p>
                       </div>
                       <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
                         <span className="text-white text-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -315,11 +320,7 @@ export default function Home() {
                       </div>
                     </div>
                   )}
-                  <div className="p-4">
-                    <p className="text-sm text-amber-900 font-medium line-clamp-2">
-                      {item.name}
-                    </p>
-                  </div>
+
                 </div>
               ))}
             </div>

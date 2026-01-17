@@ -118,10 +118,7 @@ export default function Lightbox({
             </button>
           </div>
 
-          {/* Filename */}
-          <div className="px-4 py-2 bg-black/50 text-white text-sm text-center truncate">
-            {currentItem.name}
-          </div>
+
         </div>
       </DialogContent>
     </Dialog>

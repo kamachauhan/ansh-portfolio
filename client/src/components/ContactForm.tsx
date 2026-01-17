@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Send, CheckCircle, AlertCircle } from "lucide-react";
-import emailjs from "@emailjs/browser";
 
 const playfairStyle = { fontFamily: "'Playfair Display', serif" };
 
@@ -30,14 +29,7 @@ export default function ContactForm() {
   });
 
   const [errors, setErrors] = useState<Partial<FormData>>({});
-
-  // Initialize EmailJS (use public key - it's safe for frontend)
-  const initEmailJS = () => {
-    if (!window.emailjsInitialized) {
-      emailjs.init("YOUR_EMAILJS_PUBLIC_KEY");
-      window.emailjsInitialized = true;
-    }
-  };
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const validateForm = (): boolean => {
     const newErrors: Partial<FormData> = {};
@@ -85,7 +77,7 @@ export default function ContactForm() {
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!validateForm()) {
@@ -96,33 +88,31 @@ export default function ContactForm() {
       return;
     }
 
+    setIsSubmitting(true);
     setStatus({
       type: "loading",
       message: "Sending your message...",
     });
 
     try {
-      initEmailJS();
+      // Create FormData for submission
+      const formDataToSubmit = new FormData();
+      formDataToSubmit.append("fullName", formData.fullName);
+      formDataToSubmit.append("email", formData.email);
+      formDataToSubmit.append("phone", formData.phone);
+      formDataToSubmit.append("message", formData.message);
+      formDataToSubmit.append("_captcha", "false");
 
-      // Send email using EmailJS
-      const response = await emailjs.send(
-        "YOUR_EMAILJS_SERVICE_ID",
-        "YOUR_EMAILJS_TEMPLATE_ID",
-        {
-          to_email: "chauhansagency@gmail.com",
-          to_name: "Kamal Chauhan",
-          from_name: formData.fullName,
-          from_email: formData.email,
-          phone: formData.phone,
-          message: formData.message,
-          company: "Ansh Creation",
-        }
-      );
+      // Submit to FormSubmit.co
+      const response = await fetch("https://formsubmit.co/chauhansagency@gmail.com", {
+        method: "POST",
+        body: formDataToSubmit,
+      });
 
-      if (response.status === 200) {
+      if (response.ok) {
         setStatus({
           type: "success",
-          message: "Message sent successfully! I'll get back to you soon.",
+          message: "Thank you! Your message has been sent to Kamal Chauhan. We'll get back to you soon!",
         });
 
         // Reset form
@@ -132,33 +122,36 @@ export default function ContactForm() {
           phone: "",
           message: "",
         });
+        setErrors({});
 
         // Clear success message after 5 seconds
         setTimeout(() => {
           setStatus({ type: "idle", message: "" });
         }, 5000);
+      } else {
+        throw new Error("Failed to send message");
       }
     } catch (error) {
-      console.error("Email send error:", error);
+      console.error("Form submission error:", error);
 
-      // Fallback to mailto if EmailJS fails
-      const mailtoLink = `mailto:chauhansagency@gmail.com?subject=New Inquiry from ${encodeURIComponent(
-        formData.fullName
-      )}&body=${encodeURIComponent(
-        `Name: ${formData.fullName}\nEmail: ${formData.email}\nPhone: ${formData.phone}\n\nMessage:\n${formData.message}`
-      )}`;
+      // Fallback to mailto
+      const subject = `New Inquiry from ${formData.fullName}`;
+      const body = `Name: ${formData.fullName}\nEmail: ${formData.email}\nPhone: ${formData.phone}\n\nMessage:\n${formData.message}`;
+      const mailtoLink = `mailto:chauhansagency@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
       window.location.href = mailtoLink;
 
       setStatus({
         type: "success",
         message:
-          "Opening your email client to send the message. If it doesn't open, please email us directly.",
+          "Opening your email client to send the message. If it doesn't open, please email us directly at chauhansagency@gmail.com",
       });
 
       setTimeout(() => {
         setStatus({ type: "idle", message: "" });
       }, 5000);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -296,12 +289,12 @@ export default function ContactForm() {
         {/* Submit Button */}
         <button
           type="submit"
-          disabled={status.type === "loading"}
+          disabled={isSubmitting}
           className="w-full px-8 py-4 bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 disabled:from-amber-400 disabled:to-amber-500 text-white font-bold rounded-lg transition-all duration-300 hover:shadow-xl hover:shadow-amber-200 disabled:shadow-none flex items-center justify-center gap-2 text-lg"
           style={playfairStyle}
         >
           <Send className="w-5 h-5" />
-          {status.type === "loading" ? "Sending..." : "Send Message"}
+          {isSubmitting ? "Sending..." : "Send Message"}
         </button>
 
         <p className="text-center text-sm text-amber-800">
@@ -310,11 +303,4 @@ export default function ContactForm() {
       </form>
     </div>
   );
-}
-
-// Extend window type for EmailJS initialization flag
-declare global {
-  interface Window {
-    emailjsInitialized?: boolean;
-  }
 }
