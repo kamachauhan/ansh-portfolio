@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Works - Ansh Creation Portfolio</title>
+    <meta name="description" content="Explore all team projects and collaborative work from Ansh Creation - a creative studio specializing in design, video, and digital solutions.">
+    <link rel="stylesheet" href="assets/index-BAsuGR67.css">
+    <style>
+        body {
+            background-color: #FEF3C7;
+            color: #1F2937;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .nav-bar {
+            background-color: #FEF3C7;
+            padding: 1.5rem 2rem;
+            border-bottom: 2px solid #D97706;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #D97706;
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: #1F2937;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: #D97706;
+        }
+        
+        .nav-links a.active {
+            color: #D97706;
+            border-bottom: 2px solid #D97706;
+            padding-bottom: 0.5rem;
+        }
+        
+        .hero {
+            background: linear-gradient(135deg, #FEF3C7 0%, #FCD34D 100%);
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+        
+        .hero-content {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+        
+        .hero-title {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #1F2937;
+            margin-bottom: 1rem;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: #D97706;
+            margin-bottom: 2rem;
+        }
+        
+        .portfolio-section {
+            max-width: 1280px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            color: #1F2937;
+            text-align: center;
+            margin-bottom: 1rem;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .section-description {
+            text-align: center;
+            color: #4B5563;
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        
+        .category-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .category-tab {
+            padding: 0.75rem 1.5rem;
+            background-color: #FFFBEB;
+            border: 2px solid #D97706;
+            color: #D97706;
+            border-radius: 24px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .category-tab:hover {
+            background-color: #D97706;
+            color: white;
+        }
+        
+        .category-tab.active {
+            background-color: #D97706;
+            color: white;
+        }
+        
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+        
+        .portfolio-item {
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .portfolio-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(217, 119, 6, 0.2);
+        }
+        
+        .portfolio-item img,
+        .portfolio-item video {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .portfolio-item-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(217, 119, 6, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            height: 250px;
+        }
+        
+        .portfolio-item:hover .portfolio-item-overlay {
+            opacity: 1;
+        }
+        
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .lightbox.active {
+            display: flex;
+        }
+        
+        .lightbox-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+            background: white;
+            border-radius: 12px;
+            overflow: auto;
+        }
+        
+        .lightbox-content img,
+        .lightbox-content video {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .lightbox-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: #D97706;
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+        
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(217, 119, 6, 0.8);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+        
+        .lightbox-prev {
+            left: 1rem;
+        }
+        
+        .lightbox-next {
+            right: 1rem;
+        }
+        
+        .footer {
+            background-color: #1F2937;
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+        
+        .empty-state {
+            grid-column: 1/-1;
+            text-align: center;
+            padding: 3rem;
+            color: #4B5563;
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                gap: 1rem;
+                font-size: 0.9rem;
+            }
+            
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 1.75rem;
+            }
+            
+            .portfolio-grid {
+                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav-bar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">Ansh Creation</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="kamal.html">Kamal</a></li>
+                <li><a href="vivek.html">Vivek</a></li>
+                <li><a href="works.html" class="active">Team Works</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">Our Team Works</h1>
+            <p class="hero-subtitle">Collaborative Projects & Creative Solutions</p>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section class="portfolio-section">
+        <h2 class="section-title">Complete Works Library</h2>
+        <p class="section-description">Explore our comprehensive collection of creative projects. From design and branding to video production and digital solutions, we showcase the diverse range of work created by our collaborative team.</p>
+        
+        <div class="category-tabs">
+            <button class="category-tab active" data-category="all">All Works</button>
+            <button class="category-tab" data-category="advertisements">Advertisements</button>
+            <button class="category-tab" data-category="ai-images">AI Images</button>
+            <button class="category-tab" data-category="banners">Banners</button>
+            <button class="category-tab" data-category="collage">Collage</button>
+            <button class="category-tab" data-category="invitations">Invitations</button>
+            <button class="category-tab" data-category="logos">Logos</button>
+            <button class="category-tab" data-category="thumbnails">Thumbnails</button>
+            <button class="category-tab" data-category="video">Videos</button>
+        </div>
+
+        <div class="portfolio-grid" id="portfolioGrid">
+            <!-- Portfolio items will be loaded here by JavaScript -->
+        </div>
+    </section>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <div class="lightbox-content" id="lightboxContent">
+            <!-- Content will be loaded here -->
+        </div>
+        <button class="lightbox-close" id="lightboxClose">&times;</button>
+        <button class="lightbox-nav lightbox-prev" id="lightboxPrev">&#10094;</button>
+        <button class="lightbox-nav lightbox-next" id="lightboxNext">&#10095;</button>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2025 Ansh Creation. All rights reserved.</p>
+        <p>Crafting creative excellence since 2019.</p>
+    </footer>
+
+    <script>
+        const categories = ['advertisements', 'ai-images', 'banners', 'collage', 'invitations', 'logos', 'thumbnails', 'video'];
+        const baseFolders = ['kamal/my work', 'vivek/my work'];
+        let allItems = [];
+        let currentIndex = 0;
+        let currentCategory = 'all';
+
+        async function loadPortfolioItems() {
+            allItems = [];
+            
+            for (const baseFolder of baseFolders) {
+                for (const category of categories) {
+                    try {
+                        // Try to load files from the folder
+                        const response = await fetch(`${baseFolder}/${category}/`);
+                        if (response.ok) {
+                            const text = await response.text();
+                            const parser = new DOMParser();
+                            const doc = parser.parseFromString(text, 'text/html');
+                            const links = doc.querySelectorAll('a');
+                            
+                            for (const link of links) {
+                                const href = link.getAttribute('href');
+                                if (href && !href.startsWith('?') && href !== '../') {
+                                    const fileUrl = `${baseFolder}/${category}/${href}`;
+                                    const ext = href.toLowerCase().split('.').pop();
+                                    
+                                    if (['jpg', 'jpeg', 'png', 'gif', 'webp'].includes(ext)) {
+                                        allItems.push({
+                                            type: 'image',
+                                            url: fileUrl,
+                                            category: category
+                                        });
+                                    } else if (['mp4', 'webm', 'mov', 'avi'].includes(ext)) {
+                                        allItems.push({
+                                            type: 'video',
+                                            url: fileUrl,
+                                            category: category
+                                        });
+                                    }
+                                }
+                            }
+                        }
+                    } catch (error) {
+                        console.log(`Could not load ${baseFolder}/${category}:`, error);
+                    }
+                }
+            }
+            
+            renderPortfolio('all');
+        }
+
+        function renderPortfolio(category) {
+            currentCategory = category;
+            const grid = document.getElementById('portfolioGrid');
+            grid.innerHTML = '';
+            
+            const filteredItems = category === 'all' 
+                ? allItems 
+                : allItems.filter(item => item.category === category);
+            
+            if (filteredItems.length === 0) {
+                grid.innerHTML = '<div class="empty-state"><p>No works available in this category yet.</p></div>';
+                return;
+            }
+            
+            filteredItems.forEach((item, index) => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'portfolio-item';
+                
+                if (item.type === 'image') {
+                    itemDiv.innerHTML = `
+                        <img src="${item.url}" alt="Portfolio work" loading="lazy">
+                        <div class="portfolio-item-overlay">View</div>
+                    `;
+                } else {
+                    itemDiv.innerHTML = `
+                        <video preload="metadata">
+                            <source src="${item.url}" type="video/mp4">
+                        </video>
+                        <div class="portfolio-item-overlay">Play</div>
+                    `;
+                }
+                
+                itemDiv.addEventListener('click', () => openLightbox(index, filteredItems));
+                grid.appendChild(itemDiv);
+            });
+        }
+
+        function openLightbox(index, items) {
+            currentIndex = index;
+            const item = items[index];
+            const content = document.getElementById('lightboxContent');
+            
+            if (item.type === 'image') {
+                content.innerHTML = `<img src="${item.url}" alt="Portfolio work">`;
+            } else {
+                content.innerHTML = `<video controls style="width: 100%; height: auto;"><source src="${item.url}" type="video/mp4"></video>`;
+            }
+            
+            document.getElementById('lightbox').classList.add('active');
+        }
+
+        document.getElementById('lightboxClose').addEventListener('click', () => {
+            document.getElementById('lightbox').classList.remove('active');
+        });
+
+        document.getElementById('lightbox').addEventListener('click', (e) => {
+            if (e.target.id === 'lightbox') {
+                document.getElementById('lightbox').classList.remove('active');
+            }
+        });
+
+        // Tab switching
+        document.querySelectorAll('.category-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.category-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                renderPortfolio(tab.dataset.category);
+            });
+        });
+
+        // Load portfolio on page load
+        loadPortfolioItems();
+    </script>
+</body>
+</html>
